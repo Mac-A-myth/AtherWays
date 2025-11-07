@@ -1,0 +1,185 @@
+package com.ust.frs.dao;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.ust.frs.bean.FlightBean;
+import com.ust.frs.bean.PassengerBean;
+import com.ust.frs.bean.RouteBean;
+import com.ust.frs.bean.ScheduleBean;
+import com.ust.frs.service.*;
+import com.ust.frs.util.DataStructure;
+
+public class AdministratorDAO implements Administrator {
+    public DataStructure ds = new DataStructure();
+    
+    public DataStructure getDs() {
+        return ds;
+    }
+
+    public void setDs(DataStructure ds) {
+        this.ds = ds;
+    }
+
+    @Override
+    public String addFlight(FlightBean flightBean) {
+        ds.setFlight(flightBean);
+        return "Flight added successfully!";
+    }
+
+    @Override
+    public boolean modifyFlight(FlightBean flightBean) {
+        ArrayList<FlightBean> flights = ds.getFlight();
+        for (int i = 0; i < flights.size(); i++) {
+            if (flights.get(i).getFlightID().equals(flightBean.getFlightID())) {
+                flights.set(i, flightBean);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int removeFlight(ArrayList<String> flightIDs) {
+        int count = 0;
+        ArrayList<FlightBean> flights = ds.getFlight();
+        Iterator<FlightBean> itr = flights.iterator();
+        while (itr.hasNext()) {
+            FlightBean flight = itr.next();
+            if (flightIDs.contains(flight.getFlightID())) {
+                itr.remove();
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public String addSchedule(ScheduleBean scheduleBean) {
+        ds.setSchedule(scheduleBean);
+        return "Schedule added successfully!";
+    }
+
+    @Override
+    public boolean modifySchedule(ScheduleBean scheduleBean) {
+        ArrayList<ScheduleBean> schedules = ds.getSchedule();
+        for (int i = 0; i < schedules.size(); i++) {
+            if (schedules.get(i).getScheduleID().equals(scheduleBean.getScheduleID())) {
+                schedules.set(i, scheduleBean);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int removeSchedule(ArrayList<String> scheduleIds) {
+        int count = 0;
+        ArrayList<ScheduleBean> schedules = ds.getSchedule();
+        Iterator<ScheduleBean> itr = schedules.iterator();
+        while (itr.hasNext()) {
+            ScheduleBean schedule = itr.next();
+            if (scheduleIds.contains(schedule.getScheduleID())) {
+                itr.remove();
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public String addRoute(RouteBean routeBean) {
+        ds.setRoute(routeBean);
+        return "Route added successfully!";
+    }
+
+    @Override
+    public boolean modifyRoute(RouteBean routeBean) {
+        ArrayList<RouteBean> routes = ds.getRoute();
+        for (int i = 0; i < routes.size(); i++) {
+            if (routes.get(i).getRouteID().equals(routeBean.getRouteID())) {
+                routes.set(i, routeBean);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int removeRoute(ArrayList<String> routeIds) {
+        int count = 0;
+        ArrayList<RouteBean> routes = ds.getRoute();
+        Iterator<RouteBean> itr = routes.iterator();
+        while (itr.hasNext()) {
+            RouteBean route = itr.next();
+            if (routeIds.contains(route.getRouteID())) {
+                itr.remove();
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public FlightBean viewByFlightId(String flightId) {
+        for (FlightBean flight : ds.getFlight()) {
+            if (flight.getFlightID().equals(flightId)) {
+                return flight;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public RouteBean viewByRouteId(String routeId) {
+        for (RouteBean route : ds.getRoute()) {
+            if (route.getRouteID().equals(routeId)) {
+                return route;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<FlightBean> viewByAllFlights() {
+        return ds.getFlight();
+    }
+
+    @Override
+    public ArrayList<RouteBean> viewByAllRoute() {
+        return ds.getRoute();
+    }
+
+    @Override
+    public ArrayList<ScheduleBean> viewByAllSchedule() {
+        return ds.getSchedule();
+    }
+
+    @Override
+    public ScheduleBean viewByScheduleId(String scheduleId) {
+        for (ScheduleBean schedule : ds.getSchedule()) {
+            if (schedule.getScheduleID().equals(scheduleId)) {
+                return schedule;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<PassengerBean> viewPassengersByFlight(String scheduleId) {
+        ArrayList<PassengerBean> passengersOnFlight = new ArrayList<>();
+        for (PassengerBean passenger : ds.getPassenger()) {
+            if (passenger.getReservationID() != null) {
+                // Find reservation for this passenger
+                for (ReservationBean reservation : ds.getReservation()) {
+                    if (reservation.getReservationID().equals(passenger.getReservationID()) &&
+                        reservation.getScheduleID().equals(scheduleId)) {
+                        passengersOnFlight.add(passenger);
+                        break;
+                    }
+                }
+            }
+        }
+        return passengersOnFlight;
+    }
+}
