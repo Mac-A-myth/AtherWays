@@ -160,13 +160,8 @@ public class Main {
         if (flights.isEmpty()) {
             System.out.println("No flights available.");
         } else {
-            System.out.printf("%-10s %-15s %-18s %-22s%n", 
-                "Flight ID", "Flight Name", "Seating Capacity", "Reservation Capacity");
-            System.out.println("------------------------------------------------------------------------");
             for (FlightBean flight : flights) {
-                System.out.printf("%-10s %-15s %-18d %-22d%n", 
-                    flight.getFlightID(), flight.getFlightName(), 
-                    flight.getSeatingCapacity(), flight.getReservationCapacity());
+                System.out.println(flight);
             }
         }
     }
@@ -178,15 +173,17 @@ public class Main {
             sc.nextLine();
             System.out.print("Enter Flight ID to modify: ");
             String flightID = sc.nextLine();
-            FlightBean flight = ad.viewByFlightId(flightID);
-            if (flight != null) {
-                System.out.print("Enter new Flight Name: ");
-                flight.setFlightName(sc.nextLine());
-                System.out.print("Enter new Seating Capacity: ");
-                flight.setSeatingCapacity(sc.nextInt());
-                System.out.print("Enter new Reservation Capacity: ");
-                flight.setReservationCapacity(sc.nextInt());
-                if (ad.modifyFlight(flight)) {
+            FlightBean existingFlight = ad.viewByFlightId(flightID);
+            if (existingFlight != null) {
+                FlightBean updatedFlight = new FlightBean();
+                updatedFlight.setFlightID(flightID); // Keep same ID
+                System.out.print("Enter new Flight Name (" + existingFlight.getFlightName() + "): ");
+                updatedFlight.setFlightName(sc.nextLine());
+                System.out.print("Enter new Seating Capacity (" + existingFlight.getSeatingCapacity() + "): ");
+                updatedFlight.setSeatingCapacity(sc.nextInt());
+                System.out.print("Enter new Reservation Capacity (" + existingFlight.getReservationCapacity() + "): ");
+                updatedFlight.setReservationCapacity(sc.nextInt());
+                if (ad.modifyFlight(updatedFlight)) {
                     System.out.println("Flight updated successfully!");
                 } else {
                     System.out.println("Failed to update flight.");
@@ -250,13 +247,8 @@ public class Main {
         if (routes.isEmpty()) {
             System.out.println("No routes available.");
         } else {
-            System.out.printf("%-8s %-15s %-15s %-10s %-10s%n", 
-                "Route ID", "Source", "Destination", "Distance", "Fare");
-            System.out.println("------------------------------------------------------------");
             for (RouteBean route : routes) {
-                System.out.printf("%-8s %-15s %-15s %-10d %-10.2f%n", 
-                    route.getRouteID(), route.getSource(), route.getDestination(), 
-                    route.getDistance(), route.getFare());
+                System.out.println(route);
             }
         }
     }
@@ -268,17 +260,19 @@ public class Main {
             sc.nextLine();
             System.out.print("Enter Route ID to modify: ");
             String routeID = sc.nextLine();
-            RouteBean route = ad.viewByRouteId(routeID);
-            if (route != null) {
-                System.out.print("Enter new Source City: ");
-                route.setSource(sc.nextLine());
-                System.out.print("Enter new Destination City: ");
-                route.setDestination(sc.nextLine());
-                System.out.print("Enter new Distance (in km): ");
-                route.setDistance(sc.nextInt());
-                System.out.print("Enter new Fare: ");
-                route.setFare(sc.nextDouble());
-                if (ad.modifyRoute(route)) {
+            RouteBean existingRoute = ad.viewByRouteId(routeID);
+            if (existingRoute != null) {
+                RouteBean updatedRoute = new RouteBean();
+                updatedRoute.setRouteID(routeID); // Keep same ID
+                System.out.print("Enter new Source City (" + existingRoute.getSource() + "): ");
+                updatedRoute.setSource(sc.nextLine());
+                System.out.print("Enter new Destination City (" + existingRoute.getDestination() + "): ");
+                updatedRoute.setDestination(sc.nextLine());
+                System.out.print("Enter new Distance (in km) (" + existingRoute.getDistance() + "): ");
+                updatedRoute.setDistance(sc.nextInt());
+                System.out.print("Enter new Fare (" + existingRoute.getFare() + "): ");
+                updatedRoute.setFare(sc.nextDouble());
+                if (ad.modifyRoute(updatedRoute)) {
                     System.out.println("Route updated successfully!");
                 } else {
                     System.out.println("Failed to update route.");
@@ -344,15 +338,8 @@ public class Main {
         if (schedules.isEmpty()) {
             System.out.println("No schedules available.");
         } else {
-            System.out.printf("%-10s %-10s %-8s %-20s %-15s %-15s%n", 
-                "Schedule ID", "Flight ID", "Route ID", "Available Days", 
-                "Departure Time", "Travel Duration");
-            System.out.println("--------------------------------------------------------------------------------");
             for (ScheduleBean schedule : schedules) {
-                System.out.printf("%-10s %-10s %-8s %-20s %-15s %-15d%n", 
-                    schedule.getScheduleID(), schedule.getFlightID(), 
-                    schedule.getRouteID(), schedule.getAvailableDays(), 
-                    schedule.getDepartureTime(), schedule.getTravelDuration());
+                System.out.println(schedule);
             }
         }
     }
@@ -364,19 +351,21 @@ public class Main {
             sc.nextLine();
             System.out.print("Enter Schedule ID to modify: ");
             String scheduleID = sc.nextLine();
-            ScheduleBean schedule = ad.viewByScheduleId(scheduleID);
-            if (schedule != null) {
-                System.out.print("Enter new Flight ID: ");
-                schedule.setFlightID(sc.nextLine());
-                System.out.print("Enter new Route ID: ");
-                schedule.setRouteID(sc.nextLine());
-                System.out.print("Enter new Available Days: ");
-                schedule.setAvailableDays(sc.nextLine());
-                System.out.print("Enter new Departure Time: ");
-                schedule.setDepartureTime(sc.nextLine());
-                System.out.print("Enter new Travel Duration (hours): ");
-                schedule.setTravelDuration(sc.nextInt());
-                if (ad.modifySchedule(schedule)) {
+            ScheduleBean existingSchedule = ad.viewByScheduleId(scheduleID);
+            if (existingSchedule != null) {
+                ScheduleBean updatedSchedule = new ScheduleBean();
+                updatedSchedule.setScheduleID(scheduleID); // Keep same ID
+                System.out.print("Enter new Flight ID (" + existingSchedule.getFlightID() + "): ");
+                updatedSchedule.setFlightID(sc.nextLine());
+                System.out.print("Enter new Route ID (" + existingSchedule.getRouteID() + "): ");
+                updatedSchedule.setRouteID(sc.nextLine());
+                System.out.print("Enter new Available Days (" + existingSchedule.getAvailableDays() + "): ");
+                updatedSchedule.setAvailableDays(sc.nextLine());
+                System.out.print("Enter new Departure Time (" + existingSchedule.getDepartureTime() + "): ");
+                updatedSchedule.setDepartureTime(sc.nextLine());
+                System.out.print("Enter new Travel Duration (hours) (" + existingSchedule.getTravelDuration() + "): ");
+                updatedSchedule.setTravelDuration(sc.nextInt());
+                if (ad.modifySchedule(updatedSchedule)) {
                     System.out.println("Schedule updated successfully!");
                 } else {
                     System.out.println("Failed to update schedule.");
@@ -398,13 +387,8 @@ public class Main {
             System.out.println("No passengers found for this flight schedule.");
         } else {
             System.out.println("\n<<<<<<<<<<<<< PASSENGERS FOR SCHEDULE " + scheduleId + " >>>>>>>>>>>>>>>");
-            System.out.printf("%-12s %-20s %-8s %-5s %-8s%n", 
-                "Reservation ID", "Name", "Gender", "Age", "Seat No");
-            System.out.println("--------------------------------------------------------");
             for (PassengerBean passenger : passengers) {
-                System.out.printf("%-12s %-20s %-8s %-5d %-8d%n", 
-                    passenger.getReservationID(), passenger.getName(), 
-                    passenger.getGender(), passenger.getAge(), passenger.getSeatNo());
+                System.out.println(passenger);
             }
         }
     }
