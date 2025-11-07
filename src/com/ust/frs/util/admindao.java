@@ -23,6 +23,12 @@ public class AdministratorDAO implements Administrator {
 
     @Override
     public String addFlight(FlightBean flightBean) {
+        // Check if flight already exists
+        for (FlightBean flight : ds.getFlight()) {
+            if (flight.getFlightID().equals(flightBean.getFlightID())) {
+                return "Flight with ID " + flightBean.getFlightID() + " already exists!";
+            }
+        }
         ds.setFlight(flightBean);
         return "Flight added successfully!";
     }
@@ -56,6 +62,12 @@ public class AdministratorDAO implements Administrator {
 
     @Override
     public String addSchedule(ScheduleBean scheduleBean) {
+        // Check if schedule already exists
+        for (ScheduleBean schedule : ds.getSchedule()) {
+            if (schedule.getScheduleID().equals(scheduleBean.getScheduleID())) {
+                return "Schedule with ID " + scheduleBean.getScheduleID() + " already exists!";
+            }
+        }
         ds.setSchedule(scheduleBean);
         return "Schedule added successfully!";
     }
@@ -89,6 +101,12 @@ public class AdministratorDAO implements Administrator {
 
     @Override
     public String addRoute(RouteBean routeBean) {
+        // Check if route already exists
+        for (RouteBean route : ds.getRoute()) {
+            if (route.getRouteID().equals(routeBean.getRouteID())) {
+                return "Route with ID " + routeBean.getRouteID() + " already exists!";
+            }
+        }
         ds.setRoute(routeBean);
         return "Route added successfully!";
     }
@@ -169,14 +187,12 @@ public class AdministratorDAO implements Administrator {
     public ArrayList<PassengerBean> viewPassengersByFlight(String scheduleId) {
         ArrayList<PassengerBean> passengersOnFlight = new ArrayList<>();
         for (PassengerBean passenger : ds.getPassenger()) {
-            if (passenger.getReservationID() != null) {
-                // Find reservation for this passenger
-                for (ReservationBean reservation : ds.getReservation()) {
-                    if (reservation.getReservationID().equals(passenger.getReservationID()) &&
-                        reservation.getScheduleID().equals(scheduleId)) {
-                        passengersOnFlight.add(passenger);
-                        break;
-                    }
+            // Find reservation for this passenger
+            for (ReservationBean reservation : ds.getReservation()) {
+                if (reservation.getReservationID().equals(passenger.getReservationID()) &&
+                    reservation.getScheduleID().equals(scheduleId)) {
+                    passengersOnFlight.add(passenger);
+                    break;
                 }
             }
         }
