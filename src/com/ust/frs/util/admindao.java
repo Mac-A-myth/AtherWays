@@ -11,31 +11,22 @@ import com.ust.frs.service.*;
 import com.ust.frs.util.DataStructure;
 
 public class AdministratorDAO implements Administrator {
-    public DataStructure ds = new DataStructure();
     
-    public DataStructure getDs() {
-        return ds;
-    }
-
-    public void setDs(DataStructure ds) {
-        this.ds = ds;
-    }
-
     @Override
     public String addFlight(FlightBean flightBean) {
         // Check if flight already exists
-        for (FlightBean flight : ds.getFlight()) {
+        for (FlightBean flight : DataStructure.getAllFlights()) {
             if (flight.getFlightID().equals(flightBean.getFlightID())) {
                 return "Flight with ID " + flightBean.getFlightID() + " already exists!";
             }
         }
-        ds.setFlight(flightBean);
+        DataStructure.addFlight(flightBean);
         return "Flight added successfully!";
     }
 
     @Override
     public boolean modifyFlight(FlightBean flightBean) {
-        ArrayList<FlightBean> flights = ds.getFlight();
+        ArrayList<FlightBean> flights = DataStructure.flights;
         for (int i = 0; i < flights.size(); i++) {
             if (flights.get(i).getFlightID().equals(flightBean.getFlightID())) {
                 flights.set(i, flightBean);
@@ -48,8 +39,7 @@ public class AdministratorDAO implements Administrator {
     @Override
     public int removeFlight(ArrayList<String> flightIDs) {
         int count = 0;
-        ArrayList<FlightBean> flights = ds.getFlight();
-        Iterator<FlightBean> itr = flights.iterator();
+        Iterator<FlightBean> itr = DataStructure.flights.iterator();
         while (itr.hasNext()) {
             FlightBean flight = itr.next();
             if (flightIDs.contains(flight.getFlightID())) {
@@ -63,18 +53,18 @@ public class AdministratorDAO implements Administrator {
     @Override
     public String addSchedule(ScheduleBean scheduleBean) {
         // Check if schedule already exists
-        for (ScheduleBean schedule : ds.getSchedule()) {
+        for (ScheduleBean schedule : DataStructure.getAllSchedules()) {
             if (schedule.getScheduleID().equals(scheduleBean.getScheduleID())) {
                 return "Schedule with ID " + scheduleBean.getScheduleID() + " already exists!";
             }
         }
-        ds.setSchedule(scheduleBean);
+        DataStructure.addSchedule(scheduleBean);
         return "Schedule added successfully!";
     }
 
     @Override
     public boolean modifySchedule(ScheduleBean scheduleBean) {
-        ArrayList<ScheduleBean> schedules = ds.getSchedule();
+        ArrayList<ScheduleBean> schedules = DataStructure.schedules;
         for (int i = 0; i < schedules.size(); i++) {
             if (schedules.get(i).getScheduleID().equals(scheduleBean.getScheduleID())) {
                 schedules.set(i, scheduleBean);
@@ -87,8 +77,7 @@ public class AdministratorDAO implements Administrator {
     @Override
     public int removeSchedule(ArrayList<String> scheduleIds) {
         int count = 0;
-        ArrayList<ScheduleBean> schedules = ds.getSchedule();
-        Iterator<ScheduleBean> itr = schedules.iterator();
+        Iterator<ScheduleBean> itr = DataStructure.schedules.iterator();
         while (itr.hasNext()) {
             ScheduleBean schedule = itr.next();
             if (scheduleIds.contains(schedule.getScheduleID())) {
@@ -102,18 +91,18 @@ public class AdministratorDAO implements Administrator {
     @Override
     public String addRoute(RouteBean routeBean) {
         // Check if route already exists
-        for (RouteBean route : ds.getRoute()) {
+        for (RouteBean route : DataStructure.getAllRoutes()) {
             if (route.getRouteID().equals(routeBean.getRouteID())) {
                 return "Route with ID " + routeBean.getRouteID() + " already exists!";
             }
         }
-        ds.setRoute(routeBean);
+        DataStructure.addRoute(routeBean);
         return "Route added successfully!";
     }
 
     @Override
     public boolean modifyRoute(RouteBean routeBean) {
-        ArrayList<RouteBean> routes = ds.getRoute();
+        ArrayList<RouteBean> routes = DataStructure.routes;
         for (int i = 0; i < routes.size(); i++) {
             if (routes.get(i).getRouteID().equals(routeBean.getRouteID())) {
                 routes.set(i, routeBean);
@@ -126,8 +115,7 @@ public class AdministratorDAO implements Administrator {
     @Override
     public int removeRoute(ArrayList<String> routeIds) {
         int count = 0;
-        ArrayList<RouteBean> routes = ds.getRoute();
-        Iterator<RouteBean> itr = routes.iterator();
+        Iterator<RouteBean> itr = DataStructure.routes.iterator();
         while (itr.hasNext()) {
             RouteBean route = itr.next();
             if (routeIds.contains(route.getRouteID())) {
@@ -140,7 +128,7 @@ public class AdministratorDAO implements Administrator {
 
     @Override
     public FlightBean viewByFlightId(String flightId) {
-        for (FlightBean flight : ds.getFlight()) {
+        for (FlightBean flight : DataStructure.getAllFlights()) {
             if (flight.getFlightID().equals(flightId)) {
                 return flight;
             }
@@ -150,7 +138,7 @@ public class AdministratorDAO implements Administrator {
 
     @Override
     public RouteBean viewByRouteId(String routeId) {
-        for (RouteBean route : ds.getRoute()) {
+        for (RouteBean route : DataStructure.getAllRoutes()) {
             if (route.getRouteID().equals(routeId)) {
                 return route;
             }
@@ -160,22 +148,22 @@ public class AdministratorDAO implements Administrator {
 
     @Override
     public ArrayList<FlightBean> viewByAllFlights() {
-        return ds.getFlight();
+        return DataStructure.getAllFlights();
     }
 
     @Override
     public ArrayList<RouteBean> viewByAllRoute() {
-        return ds.getRoute();
+        return DataStructure.getAllRoutes();
     }
 
     @Override
     public ArrayList<ScheduleBean> viewByAllSchedule() {
-        return ds.getSchedule();
+        return DataStructure.getAllSchedules();
     }
 
     @Override
     public ScheduleBean viewByScheduleId(String scheduleId) {
-        for (ScheduleBean schedule : ds.getSchedule()) {
+        for (ScheduleBean schedule : DataStructure.getAllSchedules()) {
             if (schedule.getScheduleID().equals(scheduleId)) {
                 return schedule;
             }
@@ -186,9 +174,9 @@ public class AdministratorDAO implements Administrator {
     @Override
     public ArrayList<PassengerBean> viewPassengersByFlight(String scheduleId) {
         ArrayList<PassengerBean> passengersOnFlight = new ArrayList<>();
-        for (PassengerBean passenger : ds.getPassenger()) {
+        for (PassengerBean passenger : DataStructure.getAllPassengers()) {
             // Find reservation for this passenger
-            for (ReservationBean reservation : ds.getReservation()) {
+            for (ReservationBean reservation : DataStructure.getAllReservations()) {
                 if (reservation.getReservationID().equals(passenger.getReservationID()) &&
                     reservation.getScheduleID().equals(scheduleId)) {
                     passengersOnFlight.add(passenger);
