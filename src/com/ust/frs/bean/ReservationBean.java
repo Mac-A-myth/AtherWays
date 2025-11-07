@@ -17,6 +17,11 @@ public class ReservationBean {
 		this.bookingStatus = bookingStatus;
 		this.totalFare = totalFare;
 	}
+	
+	public ReservationBean() {
+		super();
+	}
+
 	@Override
 	public String toString() {
 		return "ReservationBean [reservationID=" + reservationID + ", userID=" + userID + ", scheduleID=" + scheduleID

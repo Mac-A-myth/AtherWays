@@ -12,6 +12,11 @@ public class RouteBean {
 		this.distance = distance;
 		this.fare = fare;
 	}
+	
+	public RouteBean() {
+		super();
+		}
+
 	@Override
 	public String toString() {
 		return "RouteBean [routeID=" + routeID + ", source=" + source + ", destination=" + destination + ", distance="

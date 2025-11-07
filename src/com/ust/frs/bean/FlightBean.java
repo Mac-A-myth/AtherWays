@@ -10,6 +10,11 @@ public class FlightBean {
 		this.seatingCapacity = seatingCapacity;
 		this.reservationCapacity = reservationCapacity;
 	}
+	
+	public FlightBean() {
+		super();
+	}
+
 	public String getFlightID() {
 		return flightID;
 	}

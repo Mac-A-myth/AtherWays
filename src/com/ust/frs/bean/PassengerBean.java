@@ -11,6 +11,11 @@ public PassengerBean(String reservationID, String name, String gender, int age, 
 	this.age = age;
 	this.seatNo = seatNo;
 }
+
+public PassengerBean() {
+	super();
+}
+
 @Override
 public String toString() {
 	return "PassengerBean [reservationID=" + reservationID + ", name=" + name + ", gender=" + gender + ", age=" + age

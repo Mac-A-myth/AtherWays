@@ -13,6 +13,11 @@ public class ScheduleBean {
 	this.departureTime = departureTime;
 	this.travelDuration = travelDuration;
    }
+   
+   public ScheduleBean() {
+	super();
+}
+
    @Override
    public String toString() {
 	return "ScheduleBean [scheduleID=" + scheduleID + ", flightID=" + flightID + ", routeID=" + routeID

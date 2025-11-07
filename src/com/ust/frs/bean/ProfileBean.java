@@ -7,7 +7,10 @@ public class ProfileBean {
     private String lastName;
     private int age;
 
-    public ProfileBean() {}
+    public ProfileBean()
+    {
+    	super();
+    }
 
     public ProfileBean(String username, String email, String firstName, String lastName, int age) {
         this.username = username;
