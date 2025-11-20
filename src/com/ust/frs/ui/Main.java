@@ -12,6 +12,7 @@ import com.ust.frs.dao.AdministratorDAO;
 public class Main {
     public static void main(String[] args) {
         AdministratorDAO ad = new AdministratorDAO();
+        System.out.println("\n<<<<<<<<<<<<< ATHER WAYS>>>>>>>>>>>>>>>");
         Scanner sc = new Scanner(System.in);
         
         while (true) {
@@ -118,8 +119,8 @@ public class Main {
         if (pass == 0000) {
             sc.nextLine();
             FlightBean flight = new FlightBean();
-            System.out.print("Enter Flight ID: ");
-            flight.setFlightID(sc.nextLine());
+//            System.out.print("Enter Flight ID: ");
+//            flight.setFlightID(sc.nextLine());
             System.out.print("Enter Flight Name: ");
             flight.setFlightName(sc.nextLine());
             System.out.print("Enter Seating Capacity: ");
@@ -177,7 +178,7 @@ public class Main {
             FlightBean existingFlight = ad.viewByFlightId(flightID);
             if (existingFlight != null) {
                 FlightBean updatedFlight = new FlightBean();
-                updatedFlight.setFlightID(flightID); // Keep same ID
+                updatedFlight.setFlightID(flightID);
                 System.out.print("Enter new Flight Name (" + existingFlight.getFlightName() + "): ");
                 updatedFlight.setFlightName(sc.nextLine());
                 System.out.print("Enter new Seating Capacity (" + existingFlight.getSeatingCapacity() + "): ");
